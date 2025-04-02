@@ -6,7 +6,7 @@ export class DrumKit {
     octaves: 8,
     oscillator: { type: "amsawtooth12" },
     envelope: { attack: 0.001, decay: 0.8, sustain: 0.2, release: 0.2 },
-    volume: -6
+    volume: 0
   }).toDestination();
 
   private readonly snare = new Tone.NoiseSynth({
@@ -43,22 +43,22 @@ export class DrumKit {
     },
     // [null, null, "kick", "ghostkick", null, null, "kick", "kick"],
     // ["kick", "ghostkick", "snare", null, "kick", null, "snare", "ghostkick"],
-    // [
-    //   "kick",
-    //   "hiHat",
-    //   "ghostKick",
-    //   "hiHat",
-    //   "kick",
-    //   "hiHat",
-    //   "kick",
-    //   "kick,hiHat"
-    // ],
+    [
+      "kick",
+      "hiHat",
+      "ghostKick",
+      "hiHat",
+      "kick",
+      "hiHat",
+      "kick",
+      "kick,hiHat"
+    ],
     "8n"
   );
 
   constructor() {
-    const distortion = new Tone.Distortion(0.2).toDestination(); // Starker Distortion für den aggressiven Klang
-    // this.kick.connect(distortion); // Verbindung der Bassline zum Distortion-Effekt
+    const distortion = new Tone.Distortion(0.1).toDestination(); // Starker Distortion für den aggressiven Klang
+    this.kick.connect(distortion); // Verbindung der Bassline zum Distortion-Effekt
 
     // Bitcrusher für zusätzliche Aggression
     const bitcrusher = new Tone.BitCrusher(4).toDestination();

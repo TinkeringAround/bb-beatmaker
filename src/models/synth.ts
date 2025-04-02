@@ -1,6 +1,11 @@
+// @ts-ignore
 import * as Tone from "tone";
 
 export class Synthesizer {
+  static TYPES = ["custom", "sine", "square", "sawtooth", "triangle", "pulse"];
+
+  private Volume = new Tone.Volume();
+
   private Oscillator = new Tone.Oscillator().toDestination();
   private Synth = new Tone.Synth({
     oscillator: {
@@ -13,8 +18,8 @@ export class Synthesizer {
       sustain: 0.95,
       release: 1.0
     },
-    volume: -20
-  });
+    volume: 0
+  })
 
   // WAVETABLES
   private Wavetable_index = 0;
@@ -56,6 +61,10 @@ export class Synthesizer {
 
   set bpm(bpm: number) {
     Tone.getTransport().bpm.value = bpm;
+  }
+
+  set volume(volume: number) {
+    this.Volume.volume.volume = volume;
   }
 
   get oscillator() {
@@ -100,6 +109,7 @@ export class Synthesizer {
       .connect(this.Lowpass)
       .connect(this.Highpass)
       .connect(this.Eq)
+      .connect(this.Volume)
       .toDestination();
 
     this.FmLfo.start();
@@ -108,11 +118,12 @@ export class Synthesizer {
   }
 
   public ramdomize(): Synthesizer {
-    const oscillatorTypes = ["sine", "square", "sawtooth", "triangle", "pulse"];
-
     this.Synth.set({
       oscillator: {
-        type: oscillatorTypes[Math.floor(Math.random() * oscillatorTypes.length)],
+        type:
+          Synthesizer.TYPES[
+            Math.floor(Math.random() * Synthesizer.TYPES.length)
+          ],
         partials: Array.from({ length: 6 }, () => Math.random())
       },
       envelope: {
@@ -144,12 +155,34 @@ export class Synthesizer {
     return this.Synth;
   }
 
+  public getFilter() {
+    return {
+      Lowpass: this.Lowpass,
+      Highpass: this.Highpass
+    };
+  }
+
+  public getLFO() {
+    return this.FmLfo;
+  }
+
+  public getEQ() {
+    return this.Eq;
+  }
+
+  public getEffects() {
+    return {
+      Distortion: this.Distortion,
+      Bitcrusher: this.Bitcrusher,
+      Chorus: this.Chorus,
+      Reverb: this.Reverb
+    };
+  }
+
   public setSynth({
     oscillator = this.Synth.get().oscillator,
     envelope = this.Synth.envelope,
-    portamento = this.Synth.portamento,
-    volume = this.Synth.get().volume,
-    mute = false
+    portamento = this.Synth.portamento
   }) {
     this.Synth.portamento = portamento;
     this.Synth.set({
@@ -159,16 +192,9 @@ export class Synthesizer {
         decay: envelope.decay,
         sustain: envelope.sustain,
         release: envelope.release
-      },
-      volume
+      }
     });
 
-    if (mute) {
-      this.Synth.disconnect();
-      return this;
-    }
-
-    this.Synth.toDestination();
     return this;
   }
 
@@ -350,5 +376,29 @@ export class Synthesizer {
 
     this.Eq.toDestination();
     return this;
+  }
+
+  public mute(mute: boolean) {
+    if (mute) {
+      this.Volume.volume.mute = true;
+      return;
+    }
+
+    this.Volume.volume.mute = false;
+    return this;
+  }
+
+  public destroy() {
+    this.Volume.dispose();
+    this.Oscillator.dispose();
+    this.Synth.dispose();
+    this.Distortion.dispose();
+    this.Bitcrusher.dispose();
+    this.Chorus.dispose();
+    this.Reverb.dispose();
+    this.Highpass.dispose();
+    this.Lowpass.dispose();
+    this.FmLfo.dispose();
+    this.Eq.dispose();
   }
 }

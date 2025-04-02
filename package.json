@@ -1,5 +1,5 @@
 {
-    "name": "webcomponent-template",
+    "name": "bb-beatmaker",
     "private": true,
     "version": "1.0.0",
     "type": "module",
@@ -9,10 +9,10 @@
         "preview": "vite preview"
     },
     "devDependencies": {
-        "typescript": "5.0.2",
-        "vite": "4.3.2"
+        "typescript": "5.8.2",
+        "vite": "6.2.4"
     },
     "dependencies": {
-        "tone": "^15.0.4"
+        "tone": "15.0.4"
     }
 }

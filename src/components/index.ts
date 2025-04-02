@@ -1,4 +1,20 @@
-import { App } from "./app/app";
+import { Beatmaker } from "./beatmaker/beatmaker";
+import { Button } from "./button/button";
+import { Icon } from "./icon/icon.webcomponent";
+import { IconButton } from "./icon-button/icon-button";
+import { Input } from "./input/input.webcomponent";
+import { Volume } from "./volume/volume";
+import { Synthesizer } from "./synthesizer/synthesizer";
+import { Chain } from "./chain/chain";
+import { Sequencer } from "./sequencer/sequencer";
 
 // Define custom Elements here
-customElements.define(App.tag, App);
+customElements.define(Beatmaker.tag, Beatmaker);
+customElements.define(Button.tag, Button);
+customElements.define(Icon.tag, Icon);
+customElements.define(IconButton.tag, IconButton);
+customElements.define(Input.tag, Input);
+customElements.define(Volume.tag, Volume);
+customElements.define(Synthesizer.tag, Synthesizer);
+customElements.define(Chain.tag, Chain);
+customElements.define(Sequencer.tag, Sequencer);

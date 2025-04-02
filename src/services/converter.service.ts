@@ -68,5 +68,4 @@ export class ConverterService {
     
         return wavBuffer;
     }
-    
 }

@@ -1,14 +1,28 @@
 :root {
     /* Insert Global Variables here */
+    --blue: #007bff;
+    --green: #52b788;
+    --red: #e82f3b;
+    --white: #ffffff;
+    --grey: #f5f5f5;
+    --grey-0-5: rgba(245, 245, 245, .5);
+    --background: #2c3e50aa;
+    --dark: #3f4b5e;
+    --black: #323232;
+    --drop: #cce7ff;
 }
 
-html, head,
+html,
+head,
 body {
+    position: relative;
     height: 100vh;
     width: 100vw;
     margin: 0;
-
     font-size: 16px;
+    font-family: Poppins, serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 body {

@@ -44,7 +44,7 @@ template.innerHTML = `
 [part="content"] {
   display: inline-block;
 
-  padding: 10px;
+  padding: 20px;
 
   background: var(--white);
   border-radius: 6px;

@@ -7,6 +7,7 @@ import { AudioNode } from "../audio-node/audio-node";
 import { Input } from "../input/input";
 import { InputEvents } from "../input/events";
 import { AudioType, INSTRUMENTS } from "../audio-node/model";
+import { AudioNodeEvents } from "../audio-node/events";
 
 export class AudioChain extends WebComponent {
   static tag = "bb-audio-chain";
@@ -33,6 +34,10 @@ export class AudioChain extends WebComponent {
     this.midiInput.value = notes.join(" ");
   }
 
+  get nodes() {
+    return [...this.content.children] as AudioNode[];
+  }
+
   constructor() {
     super();
 
@@ -48,9 +53,9 @@ export class AudioChain extends WebComponent {
   }
 
   connectedCallback() {
-    this.content.append(AudioNode.create("synthesizer", false));
+    this.content.append(AudioNode.create("synthesizer"));
 
-    this.connect();
+    this.rewire();
     this.handleEvents();
   }
 
@@ -58,14 +63,26 @@ export class AudioChain extends WebComponent {
     this.Sequence.dispose();
   }
 
-  private connect() {
-    const nodes = [...this.content.children] as AudioNode[];
-    for (let i = 0; i < this.content.children.length - 1; i += 1) {
+  private rewire() {
+    const nodes = this.nodes;
+    console.log(nodes.length);
+
+    for (let i = 0; i < nodes.length; i += 1) {
       nodes[i].draggable = !nodes[i].isInstrument;
       nodes[i].node.disconnect();
-      nodes[i].node.connect(nodes[i + 1].node);
+
+      // first is always instrument -> no delete
+      if (i > 1) {
+        nodes[i].addEventListener(AudioNodeEvents.delete, () => this.rewire());
+      }
+
+      // connect audio nodes in a chain
+      if (i < nodes.length - 1) {
+        nodes[i].node.connect(nodes[i + 1].node);
+      }
     }
 
+    // last audio node to destination
     nodes[nodes.length - 1].node.toDestination();
     this.sequence();
   }
@@ -90,13 +107,13 @@ export class AudioChain extends WebComponent {
 
     this.content.addEventListener("drop", (event) => {
       if (event.dataTransfer) {
-        const nodes = [...this.content.children] as AudioNode[];
+        const nodes = this.nodes;
         const type = event.dataTransfer.getData("type") as AudioType;
         const config = JSON.parse(event.dataTransfer.getData("config"));
         const isInstrument = INSTRUMENTS.includes(type);
 
         // Audio Node
-        const audioNode = AudioNode.create(type, !isInstrument);
+        const audioNode = AudioNode.create(type, !isInstrument, !isInstrument);
         audioNode.config = config;
 
         // replace instrument, must always be one instrument
@@ -107,7 +124,7 @@ export class AudioChain extends WebComponent {
           this.content.append(audioNode);
         }
 
-        this.connect();
+        this.rewire();
       }
 
       this.content.style.background = "var(--white)";
@@ -115,9 +132,8 @@ export class AudioChain extends WebComponent {
   }
 
   private sequence() {
-    const nodes = [...this.content.children] as AudioNode[];
     this.Sequence.callback = (time, note) => {
-      (nodes[0].node as any).triggerAttackRelease(note, "8n", time);
+      (this.nodes[0].node as any).triggerAttackRelease(note, "8n", time);
     };
   }
 }

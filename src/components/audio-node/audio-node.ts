@@ -7,6 +7,9 @@ import { DomService } from "../../services/dom.service";
 import { AudioType, INSTRUMENTS } from "./model";
 import { createAudioNode } from "./nodes";
 import { createControls } from "./controls";
+import { IconButton } from "../icon-button/icon-button";
+import { IconTypes } from "../icon/icons";
+import { DeleteAudioNodeEvent } from "./events";
 
 export class AudioNode extends WebComponent {
   static tag = "bb-audio-node";
@@ -61,8 +64,26 @@ export class AudioNode extends WebComponent {
     return this.hasAttribute("draggable");
   }
 
-  static create(type: AudioType, draggable: boolean = false) {
+  set deletable(deletable: boolean) {
+    if (deletable) {
+      this.setAttribute("deletable", "");
+      return;
+    }
+
+    this.removeAttribute("deletable");
+  }
+
+  get deletable() {
+    return this.hasAttribute("deletable");
+  }
+
+  static create(
+    type: AudioType,
+    deletable: boolean = false,
+    draggable: boolean = false
+  ) {
     const audioNode = document.createElement(AudioNode.tag) as AudioNode;
+    audioNode.deletable = deletable;
     audioNode.type = type;
     audioNode.draggable = draggable;
 
@@ -72,7 +93,7 @@ export class AudioNode extends WebComponent {
   constructor() {
     super();
 
-    this.attachShadow({ mode: "closed" }).append(
+    this.attachShadow({ mode: "open" }).append(
       createStyles(),
       this.name,
       this.content
@@ -84,6 +105,13 @@ export class AudioNode extends WebComponent {
 
     if (this.audioConfig) {
       this.audioNode.set(this.audioConfig);
+    }
+
+    if (this.deletable) {
+      this.shadowRoot?.insertBefore(
+        IconButton.create(IconTypes.trash, () => this.delete()),
+        this.content
+      );
     }
 
     this.name.textContent = this.type;
@@ -106,5 +134,10 @@ export class AudioNode extends WebComponent {
         event.dataTransfer.dropEffect = "copy";
       }
     });
+  }
+
+  private delete() {
+    this.dispatchEvent(new DeleteAudioNodeEvent());
+    this.remove();
   }
 }

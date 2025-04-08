@@ -89,11 +89,11 @@ export class LeftSidebar extends WebComponent {
     this.content.append(
       // Instruments
       DomService.createElement({ tag: "h1", textContent: "Instruments" }),
-      ...INSTRUMENTS.map((type) => AudioNode.create(type, true)),
+      ...INSTRUMENTS.map((type) => AudioNode.create(type, false, true)),
 
       // Utils
       DomService.createElement({ tag: "h1", textContent: "Utility" }),
-      ...UTILS.map((type) => AudioNode.create(type, true))
+      ...UTILS.map((type) => AudioNode.create(type, false, true))
     );
   }
 

@@ -1,7 +1,11 @@
+import { IconButton } from "../icon-button/icon-button";
+
 const template = document.createElement("template");
 template.innerHTML = `
 <style>
 :host {
+  position: relative;
+
   display: inline-grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 50px minmax(0, 1fr);
@@ -14,6 +18,7 @@ template.innerHTML = `
   background: var(--white);
   outline: solid 2px var(--background);
   border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 
   transition: all 0.15s ease-in-out;
   box-sizing: border-box;
@@ -37,6 +42,12 @@ h1 {
   user-select: none;
   transition: all 0.15s ease-in-out;
   cursor: grab;
+}
+
+${IconButton.tag} {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 [part="content"] {

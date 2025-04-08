@@ -18,6 +18,6 @@ export const createAudioNode = (type: AudioType) => {
         },
       }).toDestination();
     case "volume":
-      return new Tone.Volume(0);
+      return new Tone.Volume(-12);
   }
 };

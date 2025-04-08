@@ -26,8 +26,8 @@ body {
 }
 
 body {
-    /* Adjust Global Layout here */
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr);
+    display: flex;
+    flex-direction: row;
+    background: var(--white);
+    overflow: hidden;
 }

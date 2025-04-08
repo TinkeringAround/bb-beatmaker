@@ -7,6 +7,9 @@ import { Volume } from "./volume/volume";
 import { Synthesizer } from "./synthesizer/synthesizer";
 import { Chain } from "./chain/chain";
 import { Sequencer } from "./sequencer/sequencer";
+import { LeftSidebar } from "./left-sidebar/left-sidebar";
+import { Controls } from "./controls/controls";
+import { Logo } from "./logo/logo";
 
 // Define custom Elements here
 customElements.define(Beatmaker.tag, Beatmaker);
@@ -18,3 +21,6 @@ customElements.define(Volume.tag, Volume);
 customElements.define(Synthesizer.tag, Synthesizer);
 customElements.define(Chain.tag, Chain);
 customElements.define(Sequencer.tag, Sequencer);
+customElements.define(LeftSidebar.tag, LeftSidebar);
+customElements.define(Controls.tag, Controls);
+customElements.define(Logo.tag, Logo);

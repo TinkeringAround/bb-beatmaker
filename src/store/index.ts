@@ -1,6 +1,5 @@
 import { StoreEvents } from "./events";
 import { StoreState, INIT_APP_STATE } from "./state";
-import { EventObserver } from "../services/event-observer";
 import { Reducer } from "./reducer";
 
 export class Store {
@@ -34,10 +33,6 @@ export class Store {
 
   static select<T>(selector: (state: StoreState) => T): T {
     return selector(Store.state);
-  }
-
-  static listenTo<T>(eventName: StoreEvents) {
-    return new EventObserver<StoreEvents, T>(eventName);
   }
 
   private static saveStateInLocalStorage() {

@@ -74,6 +74,8 @@ input[type="checkbox"] {
 label {
   color: var(--background);
   font-size: calc(var(--fontSize) * 0.75);
+
+  cursor: default;
 }
 
 ${IconButton.tag} {

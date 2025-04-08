@@ -1,19 +1,24 @@
-import { createStyles } from './logo.style';
+import { createStyles } from "./logo.style";
+import { WebComponent } from "../webcomponent";
 
-export class Logo extends HTMLElement {
-    static readonly tag = 'bb-logo';
+export class Logo extends WebComponent {
+  static readonly tag = "bb-logo";
 
-    static create() {
-        return document.createElement(Logo.tag) as Logo;
+  static create() {
+    if (!customElements.get(Logo.tag)) {
+      customElements.define(Logo.tag, Logo);
     }
 
-    constructor() {
-        super();
+    return document.createElement(Logo.tag) as Logo;
+  }
 
-        this.title = 'Zur Startseite';
-        this.attachShadow({ mode: 'closed' }).append(
-            createStyles(),
-            'BEATBOLT'
-        );
-    }
+  constructor() {
+    super();
+
+    this.title = "Zur Startseite";
+    this.attachShadow({ mode: "closed" }).append(
+      createStyles(),
+      "BEATBOLT"
+    );
+  }
 }

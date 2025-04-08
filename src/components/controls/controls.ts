@@ -19,11 +19,8 @@ import { Logo } from "../logo/logo";
 export class Controls extends WebComponent {
   static tag = "bb-controls";
 
-  private readonly logo = Logo.create();
-  private readonly toggleButton = IconButton.create(
-    IconTypes.arrowRightdouble,
-    () => EventService.dispatch(new LeftSidebarShowEvent())
-  );
+  // private readonly logo: Logo;
+  private readonly toggleButton: IconButton;
 
   static create() {
     return document.createElement(Controls.tag) as Controls;
@@ -31,6 +28,12 @@ export class Controls extends WebComponent {
 
   constructor() {
     super();
+
+    // this.logo = Logo.create();
+    this.toggleButton = IconButton.create(
+      IconTypes.arrowRightdouble,
+      () => EventService.dispatch(new LeftSidebarShowEvent())
+    );
 
     // Controls
     const startButton = IconButton.create(IconTypes.play, () => {
@@ -56,7 +59,7 @@ export class Controls extends WebComponent {
     this.attachShadow({ mode: "closed" }).append(
       createStyles(),
       this.toggleButton,
-      this.logo,
+      // this.logo,
       DomService.createElement(),
       startButton,
       stopButton,

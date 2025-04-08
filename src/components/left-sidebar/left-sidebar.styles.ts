@@ -1,5 +1,6 @@
 import { IconButton } from '../icon-button/icon-button';
 import { Logo } from '../logo/logo';
+import { AudioNode } from '../audio-node/audio-node';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -17,7 +18,7 @@ template.innerHTML = `
     height: auto;
     width: 0px;
 
-    padding: 60x 0 0 0;
+    padding: 60px 0 0 0;
     
     background: var(--white);
     
@@ -92,6 +93,26 @@ ${IconButton.tag} {
 
     transform: translateX(0) translateY(0);
     pointer-events: all;
+}
+
+[part="content"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: var(--width);
+
+    color: var(--dark);
+}
+
+[part="content"] ${AudioNode.tag} {
+    margin-bottom: 1rem;
+}
+
+[part="content"] h1 {
+    margin: 0 0 1rem 0;
+    
+    font-size: 0.8rem;
 }
 </style>`;
 

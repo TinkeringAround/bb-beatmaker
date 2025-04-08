@@ -4,7 +4,7 @@ import * as Tone from "tone";
 import { WebComponent } from "../webcomponent";
 import { createStyles } from "./beatmaker.styles";
 import { DomService } from "../../services/dom.service";
-import { Chain } from "../chain/chain";
+import { AudioChain } from "../audio-chain/audio-chain";
 import { Controls } from "../controls/controls";
 
 export class Beatmaker extends WebComponent {
@@ -30,6 +30,6 @@ export class Beatmaker extends WebComponent {
 
   private renderContent() {
     // Instruments
-    this.content.append(Chain.create());
+    this.content.append(AudioChain.create());
   }
 }

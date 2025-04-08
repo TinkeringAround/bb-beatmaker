@@ -10,6 +10,8 @@ import {
 } from "./events";
 import { createStyles } from "./left-sidebar.styles";
 import { Logo } from "../logo/logo";
+import { INSTRUMENTS, UTILS } from "../audio-node/model";
+import { AudioNode } from "../audio-node/audio-node";
 
 export class LeftSidebar extends WebComponent {
   static readonly tag = "bb-left-sidebar";
@@ -17,6 +19,9 @@ export class LeftSidebar extends WebComponent {
   private readonly toggle: IconButton;
   private readonly dragHandle: HTMLDivElement;
   private readonly dragGhost: HTMLDivElement;
+  private readonly content: HTMLDivElement = DomService.createElement({
+    part: "content"
+  });
 
   set visible(visible: boolean) {
     if (visible) {
@@ -59,20 +64,38 @@ export class LeftSidebar extends WebComponent {
 
     this.dragGhost = DomService.createElement({ part: "drag-ghost" });
 
-    this.attachShadow({ mode: "open" }).append(
-      createStyles(),
-      Logo.create(),
-      this.toggle,
-      this.dragHandle,
-      this.dragGhost
-    );
+    this.attachShadow({ mode: "open" }).append(createStyles());
   }
 
   connectedCallback() {
+    if (this.shadowRoot) {
+      this.shadowRoot.append(
+        Logo.create(),
+        this.toggle,
+        this.dragHandle,
+        this.dragGhost,
+        this.content
+      );
+    }
+    
+
     this.visible = false;
     this.width = 400;
 
     this.handleEvents();
+    this.renderContent();
+  }
+
+  private renderContent() {
+    this.content.append(
+      // Instruments
+      DomService.createElement({ tag: "h1", textContent: "Instruments" }),
+      ...INSTRUMENTS.map(type => AudioNode.create(type, true)),
+
+      // Utils
+      DomService.createElement({ tag: "h1", textContent: "Utility" }),
+      ...UTILS.map(type => AudioNode.create(type, true))
+    );
   }
 
   private handleEvents() {

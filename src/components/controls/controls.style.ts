@@ -1,4 +1,4 @@
-import { Input } from "../input/input.webcomponent";
+import { Input } from "../input/input";
 
 const template = document.createElement("template");
 template.innerHTML = `

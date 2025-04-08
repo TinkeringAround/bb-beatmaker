@@ -4,7 +4,7 @@ import * as Tone from "tone";
 import { WebComponent } from "../webcomponent";
 import { createStyles } from "./controls.style";
 import { AudioService } from "../../services/audio.service";
-import { Input } from "../input/input.webcomponent";
+import { Input } from "../input/input";
 import { InputEvents } from "../input/events";
 import { IconButton } from "../icon-button/icon-button";
 import { IconTypes } from "../icon/icons";

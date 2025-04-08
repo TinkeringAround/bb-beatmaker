@@ -2,13 +2,13 @@
 import * as Tone from "tone";
 
 import { AudioType } from "./model";
-
 export const createAudioNode = (type: AudioType) => {
   switch (type) {
     case "synthesizer":
+      const sounds = ["sine", "square", "triangle", "sawtooth"];
       return new Tone.Synth({
         oscillator: {
-          type: "sine",
+          type: sounds[Math.floor(Math.random() * sounds.length)] as any,
         },
         envelope: {
           attack: 0.5,

@@ -1,3 +1,5 @@
+import { IconButton } from "../icon-button/icon-button";
+
 const template = document.createElement("template");
 template.innerHTML = `
 <style>
@@ -21,6 +23,28 @@ template.innerHTML = `
 
   overflow: auto;
   box-sizing: border-box;
+}
+
+[part="add-chain"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1.5rem;
+
+  background: var(--grey);
+  border-radius: 6px;
+
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+[part="add-chain"] ${IconButton.tag} {
+  --hoverBackground: transparent;
+}
+
+[part="add-chain"]:hover {
+  background: var(--grey-0-5);
 }
 </style>`;
 

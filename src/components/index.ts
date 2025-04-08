@@ -3,7 +3,7 @@ import { Beatmaker } from "./beatmaker/beatmaker";
 import { Button } from "./button/button";
 import { Icon } from "./icon/icon.webcomponent";
 import { IconButton } from "./icon-button/icon-button";
-import { Input } from "./input/input.webcomponent";
+import { Input } from "./input/input";
 import { AudioChain } from "./audio-chain/audio-chain";
 import { LeftSidebar } from "./left-sidebar/left-sidebar";
 import { Controls } from "./controls/controls";

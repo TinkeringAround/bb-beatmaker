@@ -1,4 +1,4 @@
-import { Input } from "../input/input.webcomponent";
+import { Input } from "../input/input";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -13,7 +13,8 @@ template.innerHTML = `
 
   padding: 100px 20px 20px;
 
-  background: var(--dark);
+  outline: solid 2px transparent;
+  background: var(--grey);
   border-radius: 6px;
 
   box-sizing: border-box;
@@ -53,6 +54,10 @@ template.innerHTML = `
   overflow-y: hidden;
 
   box-sizing: border-box;
+}
+
+:host(:hover) {
+  outline: solid 2px var(--blue);
 }
 </style>`;
 

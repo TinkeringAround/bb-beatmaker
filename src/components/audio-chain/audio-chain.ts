@@ -1,27 +1,17 @@
-// @ts-ignore
 import * as Tone from "tone";
 
 import { WebComponent } from "../webcomponent";
 import { createStyles } from "./audio-chain.styles";
 import { DomService } from "../../services/dom.service";
 import { AudioNode } from "../audio-node/audio-node";
-import { Input } from "../input/input.webcomponent";
+import { Input } from "../input/input";
 import { InputEvents } from "../input/events";
+import { AudioType, INSTRUMENTS } from "../audio-node/model";
 
 export class AudioChain extends WebComponent {
   static tag = "bb-audio-chain";
 
-  private nodes: any[] = [
-    AudioNode.create("synthesizer"),
-    AudioNode.create("volume"),
-  ];
-
-  private Sequence = new Tone.Sequence(
-    // @ts-ignore
-    (time, note) => {},
-    ["F#1"],
-    "8n"
-  ).start();
+  private Sequence = new Tone.Sequence((_, __) => {}, ["F#1"], "8n").start();
 
   private readonly name = Input.create("Untitled", "Chain", "Name");
   private readonly midi = DomService.createElement({ part: "midi" });
@@ -39,18 +29,8 @@ export class AudioChain extends WebComponent {
   }
 
   set notes(notes: string[]) {
-    if (this.nodes[0].node) {
-      this.Sequence = new Tone.Sequence(
-        // @ts-ignore
-        (time, note) => {
-          this.nodes[0].node.triggerAttackRelease(note, "8n", time);
-        },
-        notes,
-        "8n"
-      ).start();
-
-      this.midiInput.value = notes.join(" ");
-    }
+    this.Sequence.events = notes;
+    this.midiInput.value = notes.join(" ");
   }
 
   constructor() {
@@ -68,10 +48,9 @@ export class AudioChain extends WebComponent {
   }
 
   connectedCallback() {
-    this.content.append(...this.nodes);
+    this.content.append(AudioNode.create("synthesizer", false));
 
     this.connect();
-    this.renderContent();
     this.handleEvents();
   }
 
@@ -79,37 +58,66 @@ export class AudioChain extends WebComponent {
     this.Sequence.dispose();
   }
 
-  private renderContent() {
-    this.midiInput.addEventListener(InputEvents.input, () => {
-      this.notes = this.midiInput.value.split(" ");
-    });
-  }
-
   private connect() {
-    for (let i = 0; i < this.nodes.length - 1; i += 1) {
-      this.nodes[i].draggable = true;
-      this.nodes[i].node.disconnect();
-      this.nodes[i].node.connect(this.nodes[i + 1].node);
+    const nodes = [...this.content.children] as AudioNode[];
+    for (let i = 0; i < this.content.children.length - 1; i += 1) {
+      nodes[i].draggable = !nodes[i].isInstrument;
+      nodes[i].node.disconnect();
+      nodes[i].node.connect(nodes[i + 1].node);
     }
-    this.nodes[this.nodes.length - 1].node.toDestination();
-    this.notes = ["F#1"];
+
+    nodes[nodes.length - 1].node.toDestination();
+    this.sequence();
   }
 
   private handleEvents() {
-    this.content.addEventListener("dragover", () => {
-      this.style.background = "var(--drop)";
+    this.midiInput.addEventListener(InputEvents.input, () => {
+      this.notes = this.midiInput.value.split(" ");
+    });
+
+    this.content.addEventListener("dragover", (event) => {
+      this.content.style.background = "var(--drop)";
+      event.preventDefault();
     });
 
     this.content.addEventListener("dragleave", () => {
-      this.style.backfaceVisibility = "var(--dark)";
+      this.content.style.background = "var(--white)";
     });
 
     this.content.addEventListener("dragend", () => {
-      this.style.backfaceVisibility = "var(--dark)";
+      this.content.style.background = "var(--white)";
     });
 
-    this.content.addEventListener("drop", () => {
-      this.style.backfaceVisibility = "var(--dark)";
+    this.content.addEventListener("drop", (event) => {
+      if (event.dataTransfer) {
+        const nodes = [...this.content.children] as AudioNode[];
+        const type = event.dataTransfer.getData("type") as AudioType;
+        const config = JSON.parse(event.dataTransfer.getData("config"));
+        const isInstrument = INSTRUMENTS.includes(type);
+
+        // Audio Node
+        const audioNode = AudioNode.create(type, !isInstrument);
+        audioNode.config = config;
+
+        // replace instrument, must always be one instrument
+        if (isInstrument) {
+          nodes[0].node.dispose();
+          this.content.replaceChild(audioNode, nodes[0]);
+        } else {
+          this.content.append(audioNode);
+        }
+
+        this.connect();
+      }
+
+      this.content.style.background = "var(--white)";
     });
+  }
+
+  private sequence() {
+    const nodes = [...this.content.children] as AudioNode[];
+    this.Sequence.callback = (time, note) => {
+      (nodes[0].node as any).triggerAttackRelease(note, "8n", time);
+    };
   }
 }

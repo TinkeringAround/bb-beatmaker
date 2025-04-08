@@ -4,14 +4,15 @@ import * as Tone from "tone";
 import { WebComponent } from "../webcomponent";
 import { createStyles } from "./audio-node.styles";
 import { DomService } from "../../services/dom.service";
-import { AudioType } from "./model";
-import { createAudioNode } from "./instruments";
+import { AudioType, INSTRUMENTS } from "./model";
+import { createAudioNode } from "./nodes";
 import { createControls } from "./controls";
 
 export class AudioNode extends WebComponent {
   static tag = "bb-audio-node";
 
   private audioNode: any;
+  private audioConfig: any | undefined;
 
   private readonly name = DomService.createElement({ tag: "h1" });
   private readonly content = DomService.createElement({ part: "content" });
@@ -35,6 +36,18 @@ export class AudioNode extends WebComponent {
     return this.getAttribute("type") as AudioType;
   }
 
+  get isInstrument() {
+    return INSTRUMENTS.includes(this.type);
+  }
+
+  get config() {
+    return this.node.get();
+  }
+
+  set config(config: any) {
+    this.audioConfig = config;
+  }
+
   set draggable(draggable: boolean) {
     if (draggable) {
       this.setAttribute("draggable", "true");
@@ -42,6 +55,10 @@ export class AudioNode extends WebComponent {
     }
 
     this.removeAttribute("draggable");
+  }
+
+  get draggable() {
+    return this.hasAttribute("draggable");
   }
 
   static create(type: AudioType, draggable: boolean = false) {
@@ -63,10 +80,14 @@ export class AudioNode extends WebComponent {
   }
 
   connectedCallback() {
-    this.name.textContent = this.type;
     this.audioNode = createAudioNode(this.type);
-    this.content.append(...createControls(this.type, this.audioNode));
 
+    if (this.audioConfig) {
+      this.audioNode.set(this.audioConfig);
+    }
+
+    this.name.textContent = this.type;
+    this.content.append(...createControls(this.type, this.audioNode));
     this.handleDragEvents();
   }
 
@@ -75,19 +96,15 @@ export class AudioNode extends WebComponent {
   }
 
   private handleDragEvents() {
-    // this.name.addEventListener("dragstart", event => {
-    //   const dragPreview = this.cloneNode(true) as HTMLElement;
-    //   dragPreview.style.position = "absolute";
-    //   dragPreview.style.top = "-1000px"; // außerhalb des sichtbaren Bereichs
-    //   dragPreview.style.left = "-1000px";
-    //   document.body.appendChild(dragPreview);
-    //   // Als Drag-Vorschau verwenden
-    //   event.dataTransfer.setDragImage(dragPreview, 10, 10);
-    //   // Optional: Entferne das Vorschaubild nach kurzem Timeout
-    //   setTimeout(() => {
-    //     document.body.removeChild(dragPreview);
-    //   }, 0);
-    //   event.preventDefault();
-    // });
+    this.addEventListener("dragstart", (event) => {
+      if (this.draggable && event.dataTransfer) {
+        event.dataTransfer.setData("type", this.type);
+        event.dataTransfer.setData("config", JSON.stringify(this.config));
+
+        event.dataTransfer.setDragImage(this, 10, 10);
+        event.dataTransfer.effectAllowed = "copy";
+        event.dataTransfer.dropEffect = "copy";
+      }
+    });
   }
 }

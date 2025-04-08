@@ -10,8 +10,8 @@ template.innerHTML = `
   width: 200px;
   margin-right: 1rem;
 
-  color: var(--dark);
-  background: var(--grey);
+  color: var(--black);
+  background: var(--white);
   outline: solid 2px var(--background);
   border-radius: 6px;
 
@@ -51,6 +51,10 @@ h1 {
 
 :host(:hover) h1 {
   background: var(--blue);
+}
+
+:host(:not([draggable])) h1 {
+  cursor: default;
 }
 </style>`;
 

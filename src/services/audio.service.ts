@@ -4,8 +4,8 @@ import { ConverterService } from "./converter.service";
 
 export class AudioService {
   private static Recorder = new Tone.Recorder();
-  
-  private static blob = undefined;
+
+  private static blob: Blob | undefined = undefined;
 
   static set bpm(bpm: number) {
     Tone.Transport.bpm.value = bpm;
@@ -33,14 +33,13 @@ export class AudioService {
     Tone.getTransport().stop();
 
     if (AudioService.Recorder.state == "started") {
-      AudioService.blob = await AudioService.Recorder.stop()
+      AudioService.blob = await AudioService.Recorder.stop();
       console.log("✅ Aufnahme abgeschlossen");
     }
   }
 
   static async download() {
     if (AudioService.blob) {
-      console.log("here")
       const webmBuffer = await AudioService.blob.arrayBuffer();
 
       // 2️⃣ WebM → WAV umwandeln

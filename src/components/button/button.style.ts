@@ -1,4 +1,4 @@
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
 <style>
 :host {
@@ -70,5 +70,5 @@ template.innerHTML = `
 </style>`;
 
 export const createStyles = () => {
-    return template.content.cloneNode(true);
+  return template.content.cloneNode(true);
 };

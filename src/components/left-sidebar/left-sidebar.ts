@@ -6,7 +6,7 @@ import { IconTypes } from "../icon/icons";
 import {
   LeftSidebarEvents,
   LeftSidebarHideEvent,
-  LeftSidebarShowEvent
+  LeftSidebarShowEvent,
 } from "./events";
 import { createStyles } from "./left-sidebar.styles";
 import { Logo } from "../logo/logo";
@@ -20,7 +20,7 @@ export class LeftSidebar extends WebComponent {
   private readonly dragHandle: HTMLDivElement;
   private readonly dragGhost: HTMLDivElement;
   private readonly content: HTMLDivElement = DomService.createElement({
-    part: "content"
+    part: "content",
   });
 
   set visible(visible: boolean) {
@@ -58,7 +58,7 @@ export class LeftSidebar extends WebComponent {
     this.dragHandle.draggable = true;
     this.dragHandle.append(
       DomService.createElement({
-        part: "drag-handle-indicator"
+        part: "drag-handle-indicator",
       })
     );
 
@@ -77,7 +77,6 @@ export class LeftSidebar extends WebComponent {
         this.content
       );
     }
-    
 
     this.visible = false;
     this.width = 400;
@@ -90,16 +89,16 @@ export class LeftSidebar extends WebComponent {
     this.content.append(
       // Instruments
       DomService.createElement({ tag: "h1", textContent: "Instruments" }),
-      ...INSTRUMENTS.map(type => AudioNode.create(type, true)),
+      ...INSTRUMENTS.map((type) => AudioNode.create(type, true)),
 
       // Utils
       DomService.createElement({ tag: "h1", textContent: "Utility" }),
-      ...UTILS.map(type => AudioNode.create(type, true))
+      ...UTILS.map((type) => AudioNode.create(type, true))
     );
   }
 
   private handleEvents() {
-    EventService.listenTo(LeftSidebarEvents.goTo).subscribe(_ => {
+    EventService.listenTo(LeftSidebarEvents.goTo).subscribe((_) => {
       if (!this.visible) {
         EventService.dispatch(new LeftSidebarShowEvent());
       }
@@ -109,7 +108,7 @@ export class LeftSidebar extends WebComponent {
       this.visible = true;
     });
 
-    this.dragHandle.addEventListener("dragstart", event => {
+    this.dragHandle.addEventListener("dragstart", (event) => {
       if (event.dataTransfer) {
         event.dataTransfer.effectAllowed = "move";
         event.dataTransfer.setDragImage(this.dragGhost, 0, 0);
@@ -118,7 +117,7 @@ export class LeftSidebar extends WebComponent {
       this.dragHandle.setAttribute("active", "");
     });
 
-    this.dragHandle.addEventListener("drag", event => {
+    this.dragHandle.addEventListener("drag", (event) => {
       if (event.clientX > 0) {
         this.width = event.clientX;
       }

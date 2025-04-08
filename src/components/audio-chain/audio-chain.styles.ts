@@ -4,20 +4,20 @@ const template = document.createElement("template");
 template.innerHTML = `
 <style>
 :host {
-    position: relative;
+  position: relative;
 
-    display: grid;
-    grid-template-columns: 200px minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr);
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 1rem;
 
-    padding: 100px 20px 20px;
+  padding: 100px 20px 20px;
 
-    background: var(--dark);
-    border-radius: 6px;
-  
-    box-sizing: border-box;
-    transition: all 0.1s ease-in-out;
+  background: var(--dark);
+  border-radius: 6px;
+
+  box-sizing: border-box;
+  transition: all 0.1s ease-in-out;
 }
 
 [part="name"] {

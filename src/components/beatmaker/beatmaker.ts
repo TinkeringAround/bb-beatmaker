@@ -11,7 +11,7 @@ export class Beatmaker extends WebComponent {
   static tag = "bb-beatmaker";
 
   private readonly content: HTMLDivElement = DomService.createElement({
-    part: "content"
+    part: "content",
   });
 
   constructor() {

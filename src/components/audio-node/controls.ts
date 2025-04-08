@@ -11,16 +11,16 @@ export const createControls = (type: AudioType, node: any) => {
       return [
         DomService.createElement({
           tag: "span",
-          textContent: `${synth.oscillator.type}`
-        })
+          textContent: `${synth.oscillator.type}`,
+        }),
       ];
     case "volume":
       const volume = node as Tone.Volume;
       return [
         DomService.createElement({
           tag: "span",
-          textContent: `${volume.volume.value}db`
-        })
+          textContent: `${volume.volume.value}db`,
+        }),
       ];
   }
 };

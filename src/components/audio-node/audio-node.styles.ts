@@ -2,21 +2,21 @@ const template = document.createElement("template");
 template.innerHTML = `
 <style>
 :host {
-    display: inline-grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 50px minmax(0, 1fr);
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 50px minmax(0, 1fr);
 
-    height: 250px;
-    width: 200px;
-    margin-right: 1rem;
+  height: 250px;
+  width: 200px;
+  margin-right: 1rem;
 
-    color: var(--dark);
-    background: var(--grey);
-    outline: solid 2px var(--background);
-    border-radius: 6px;
+  color: var(--dark);
+  background: var(--grey);
+  outline: solid 2px var(--background);
+  border-radius: 6px;
 
-    transition: all 0.15s ease-in-out;
-    box-sizing: border-box;
+  transition: all 0.15s ease-in-out;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -40,9 +40,9 @@ h1 {
 }
 
 [part="content"] {
-    padding: 10px;
+  padding: 10px;
 
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 :host(:hover) {

@@ -10,15 +10,20 @@ import { Controls } from "./controls/controls";
 import { AudioNode } from "./audio-node/audio-node";
 
 // Define custom Elements here
-customElements.define(Logo.tag, Logo);
-customElements.define(Button.tag, Button);
-customElements.define(Icon.tag, Icon);
-customElements.define(IconButton.tag, IconButton);
-customElements.define(Input.tag, Input);
-
-customElements.define(AudioChain.tag, AudioChain);
-customElements.define(AudioNode.tag, AudioNode);
-
-customElements.define(LeftSidebar.tag, LeftSidebar);
-customElements.define(Controls.tag, Controls);
-customElements.define(Beatmaker.tag, Beatmaker);
+await Promise.all(
+  [
+    Logo,
+    Button,
+    Icon,
+    IconButton,
+    Input,
+    AudioChain,
+    AudioNode,
+    LeftSidebar,
+    Controls,
+    Beatmaker,
+  ].map((component) => {
+    customElements.define(component.tag, component);
+    return customElements.whenDefined(component.tag);
+  })
+);

@@ -13,7 +13,7 @@ export class AudioChain extends WebComponent {
 
   private nodes: any[] = [
     AudioNode.create("synthesizer"),
-    AudioNode.create("volume")
+    AudioNode.create("volume"),
   ];
 
   private Sequence = new Tone.Sequence(
@@ -70,13 +70,8 @@ export class AudioChain extends WebComponent {
   connectedCallback() {
     this.content.append(...this.nodes);
 
-    Promise.all([...this.nodes.map(_ => this.waitFor(AudioNode.tag))]).then(
-      () => {
-        this.connect();
-        this.renderContent();
-      }
-    );
-
+    this.connect();
+    this.renderContent();
     this.handleEvents();
   }
 

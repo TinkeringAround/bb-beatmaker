@@ -10,16 +10,16 @@ export class Synthesizer {
   private Synth = new Tone.Synth({
     oscillator: {
       type: "custom",
-      partials: [1, 0, 0, 1, 0.5, 1, 1, 0, 1, 1, 1]
+      partials: [1, 0, 0, 1, 0.5, 1, 1, 0, 1, 1, 1],
     },
     envelope: {
       attack: 0.5,
       decay: 0.9,
       sustain: 0.95,
-      release: 1.0
+      release: 1.0,
     },
-    volume: 0
-  })
+    volume: 0,
+  });
 
   // WAVETABLES
   private Wavetable_index = 0;
@@ -27,7 +27,7 @@ export class Synthesizer {
     new Tone.Waveform(128), // Sinuswelle
     new Tone.Waveform(256), // Rechteckwelle
     new Tone.Waveform(512), // Sägezahnwelle,
-    new Tone.Waveform(1024) // Komplexe Waveform
+    new Tone.Waveform(1024), // Komplexe Waveform
   ];
 
   // EFFECTS
@@ -45,7 +45,7 @@ export class Synthesizer {
 
   private DistortionLfo = new Tone.LFO({
     frequency: "8n", // Modulation alle 8n (achteln)
-    amplitude: 0.5 // LFO-Stärke
+    amplitude: 0.5, // LFO-Stärke
   }).connect(this.Distortion);
 
   private FilterLfo = new Tone.LFO("4n", 300, 1500).connect(
@@ -56,7 +56,7 @@ export class Synthesizer {
   private Eq = new Tone.EQ3({
     low: -12, // 60-150Hz Bereich
     mid: 0,
-    high: -6 // 1kHz+ Bereich
+    high: -6, // 1kHz+ Bereich
   }).toDestination();
 
   set bpm(bpm: number) {
@@ -91,7 +91,7 @@ export class Synthesizer {
 
       // Zufällige Verzerrung (Distortion) für noch mehr Aggression
       this.Distortion.set({
-        distortion: Math.random() * 0.9
+        distortion: Math.random() * 0.9,
       });
 
       // Zufällige LFO-Modulationen für den FM-Effekt
@@ -120,18 +120,17 @@ export class Synthesizer {
   public ramdomize(): Synthesizer {
     this.Synth.set({
       oscillator: {
-        type:
-          Synthesizer.TYPES[
-            Math.floor(Math.random() * Synthesizer.TYPES.length)
-          ],
-        partials: Array.from({ length: 6 }, () => Math.random())
+        type: Synthesizer.TYPES[
+          Math.floor(Math.random() * Synthesizer.TYPES.length)
+        ],
+        partials: Array.from({ length: 6 }, () => Math.random()),
       },
       envelope: {
         attack: Math.random() * 0.2,
         decay: Math.random() * 0.5 + 0.1,
         sustain: Math.random() * 0.8 + 0.2,
-        release: Math.random() * 1.5 + 0.2
-      }
+        release: Math.random() * 1.5 + 0.2,
+      },
     });
 
     this.Lowpass.set({ frequency: Math.random() * 700 + 100 });
@@ -140,12 +139,12 @@ export class Synthesizer {
     this.FilterLfo.set({
       frequency: Math.random() * 4 + 1,
       min: Math.random() * 200 + 50,
-      max: Math.random() * 1500 + 500
+      max: Math.random() * 1500 + 500,
     });
     this.Eq.set({
       low: Math.random() * -10,
       mid: Math.random() * -5,
-      high: Math.random() * -8
+      high: Math.random() * -8,
     });
 
     return this;
@@ -158,7 +157,7 @@ export class Synthesizer {
   public getFilter() {
     return {
       Lowpass: this.Lowpass,
-      Highpass: this.Highpass
+      Highpass: this.Highpass,
     };
   }
 
@@ -175,14 +174,14 @@ export class Synthesizer {
       Distortion: this.Distortion,
       Bitcrusher: this.Bitcrusher,
       Chorus: this.Chorus,
-      Reverb: this.Reverb
+      Reverb: this.Reverb,
     };
   }
 
   public setSynth({
     oscillator = this.Synth.get().oscillator,
     envelope = this.Synth.envelope,
-    portamento = this.Synth.portamento
+    portamento = this.Synth.portamento,
   }) {
     this.Synth.portamento = portamento;
     this.Synth.set({
@@ -191,8 +190,8 @@ export class Synthesizer {
         attack: envelope.attack,
         decay: envelope.decay,
         sustain: envelope.sustain,
-        release: envelope.release
-      }
+        release: envelope.release,
+      },
     });
 
     return this;
@@ -200,7 +199,7 @@ export class Synthesizer {
 
   public setDistortion({
     distortion = this.Distortion.get().distortion,
-    mute = false
+    mute = false,
   }) {
     this.Distortion.distortion = distortion;
 
@@ -215,7 +214,7 @@ export class Synthesizer {
 
   public setBitcrusher({ bits = this.Bitcrusher.get().bits, mute = false }) {
     this.Bitcrusher.set({
-      bits
+      bits,
     });
 
     if (mute) {
@@ -230,11 +229,11 @@ export class Synthesizer {
   public setChorus({
     spread = this.Chorus.spread,
     depth = this.Chorus.depth,
-    mute = false
+    mute = false,
   }) {
     this.Chorus.set({
       spread,
-      depth
+      depth,
     });
 
     if (mute) {
@@ -260,10 +259,10 @@ export class Synthesizer {
 
   public setHighPass({
     frequency = this.Highpass.get().frequency,
-    mute = false
+    mute = false,
   }) {
     this.Highpass.set({
-      frequency
+      frequency,
     });
 
     if (mute) {
@@ -277,10 +276,10 @@ export class Synthesizer {
 
   public setLowPass({
     frequency = this.Lowpass.get().frequency,
-    mute = false
+    mute = false,
   }) {
     this.Lowpass.set({
-      frequency
+      frequency,
     });
 
     if (mute) {
@@ -296,12 +295,12 @@ export class Synthesizer {
     frequency = this.FmLfo.get().frequency,
     min = this.FmLfo.get().min,
     max = this.FmLfo.get().max,
-    mute = false
+    mute = false,
   }) {
     this.FmLfo.set({
       frequency,
       min,
-      max
+      max,
     });
 
     if (mute) {
@@ -316,11 +315,11 @@ export class Synthesizer {
   public setDistortionLfo({
     frequency = this.DistortionLfo.get().frequency,
     amplitude = this.DistortionLfo.get().amplitude,
-    mute = false
+    mute = false,
   }) {
     this.DistortionLfo.set({
       frequency,
-      amplitude
+      amplitude,
     });
 
     if (mute) {
@@ -336,12 +335,12 @@ export class Synthesizer {
     frequency = this.FilterLfo.get().frequency,
     min = this.FilterLfo.get().min,
     max = this.FilterLfo.get().max,
-    mute = false
+    mute = false,
   }) {
     this.FilterLfo.set({
       frequency,
       min,
-      max
+      max,
     });
 
     if (mute) {
@@ -359,14 +358,14 @@ export class Synthesizer {
     mid = this.Eq.get().mid,
     high = this.Eq.get().high,
     highFrequency = this.Eq.get().highFrequency,
-    mute = false
+    mute = false,
   }) {
     this.Eq.set({
       low,
       lowFrequency,
       mid,
       high,
-      highFrequency
+      highFrequency,
     });
 
     if (mute) {

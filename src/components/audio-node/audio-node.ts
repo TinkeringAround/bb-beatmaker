@@ -81,15 +81,12 @@ export class AudioNode extends WebComponent {
     //   dragPreview.style.top = "-1000px"; // außerhalb des sichtbaren Bereichs
     //   dragPreview.style.left = "-1000px";
     //   document.body.appendChild(dragPreview);
-
     //   // Als Drag-Vorschau verwenden
     //   event.dataTransfer.setDragImage(dragPreview, 10, 10);
-
     //   // Optional: Entferne das Vorschaubild nach kurzem Timeout
     //   setTimeout(() => {
     //     document.body.removeChild(dragPreview);
     //   }, 0);
-
     //   event.preventDefault();
     // });
   }

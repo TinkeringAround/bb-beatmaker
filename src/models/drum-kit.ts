@@ -6,19 +6,19 @@ export class DrumKit {
     octaves: 8,
     oscillator: { type: "amsawtooth12" },
     envelope: { attack: 0.001, decay: 0.8, sustain: 0.2, release: 0.2 },
-    volume: 0
+    volume: 0,
   }).toDestination();
 
   private readonly snare = new Tone.NoiseSynth({
     noise: { type: "white" },
     envelope: { attack: 0.1, decay: 0.1, sustain: 0.5, release: 0.5 },
-    volume: -18
+    volume: -18,
   }).toDestination();
 
   private readonly hiHat = new Tone.MetalSynth({
     harmonicity: 10,
     envelope: { attack: 0.001, decay: 0.1, sustain: 0.3, release: 0.2 },
-    volume: -12
+    volume: -12,
   }).toDestination();
 
   private readonly pattern = new Tone.Sequence(
@@ -51,7 +51,7 @@ export class DrumKit {
       "kick",
       "hiHat",
       "kick",
-      "kick,hiHat"
+      "kick,hiHat",
     ],
     "8n"
   );

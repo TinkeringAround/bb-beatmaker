@@ -11,7 +11,7 @@ import { IconTypes } from "../icon/icons";
 import { EventService } from "../../services/event.service";
 import {
   LeftSidebarShowEvent,
-  LeftSidebarEvents
+  LeftSidebarEvents,
 } from "../left-sidebar/events";
 import { DomService } from "../../services/dom.service";
 import { Logo } from "../logo/logo";
@@ -19,7 +19,7 @@ import { Logo } from "../logo/logo";
 export class Controls extends WebComponent {
   static tag = "bb-controls";
 
-  // private readonly logo: Logo;
+  private readonly logo: Logo;
   private readonly toggleButton: IconButton;
 
   static create() {
@@ -29,10 +29,9 @@ export class Controls extends WebComponent {
   constructor() {
     super();
 
-    // this.logo = Logo.create();
-    this.toggleButton = IconButton.create(
-      IconTypes.arrowRightdouble,
-      () => EventService.dispatch(new LeftSidebarShowEvent())
+    this.logo = Logo.create();
+    this.toggleButton = IconButton.create(IconTypes.arrowRightdouble, () =>
+      EventService.dispatch(new LeftSidebarShowEvent())
     );
 
     // Controls
@@ -59,7 +58,7 @@ export class Controls extends WebComponent {
     this.attachShadow({ mode: "closed" }).append(
       createStyles(),
       this.toggleButton,
-      // this.logo,
+      this.logo,
       DomService.createElement(),
       startButton,
       stopButton,

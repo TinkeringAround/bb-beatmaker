@@ -65,14 +65,13 @@ export class AudioChain extends WebComponent {
 
   private rewire() {
     const nodes = this.nodes;
-    console.log(nodes.length);
 
     for (let i = 0; i < nodes.length; i += 1) {
       nodes[i].draggable = !nodes[i].isInstrument;
       nodes[i].node.disconnect();
 
       // first is always instrument -> no delete
-      if (i > 1) {
+      if (i >= 1) {
         nodes[i].addEventListener(AudioNodeEvents.delete, () => this.rewire());
       }
 

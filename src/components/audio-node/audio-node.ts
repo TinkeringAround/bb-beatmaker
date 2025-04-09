@@ -1,4 +1,3 @@
-// @ts-ignore
 import * as Tone from "tone";
 
 import { WebComponent } from "../webcomponent";
@@ -121,6 +120,7 @@ export class AudioNode extends WebComponent {
 
   disconnectedCallback() {
     this.audioNode.dispose();
+    this.dispatchEvent(new DeleteAudioNodeEvent());
   }
 
   private handleDragEvents() {
@@ -137,7 +137,6 @@ export class AudioNode extends WebComponent {
   }
 
   private delete() {
-    this.dispatchEvent(new DeleteAudioNodeEvent());
     this.remove();
   }
 }

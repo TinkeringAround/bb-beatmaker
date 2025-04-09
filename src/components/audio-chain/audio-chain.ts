@@ -83,6 +83,11 @@ export class AudioChain extends WebComponent {
 
     // last audio node to destination
     nodes[nodes.length - 1].node.toDestination();
+
+    console.log(nodes.map(node => ({
+      type: node.type,
+      config: node.node.get()
+    })));
     this.sequence();
   }
 

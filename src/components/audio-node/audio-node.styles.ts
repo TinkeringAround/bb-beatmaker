@@ -1,4 +1,5 @@
 import { IconButton } from "../icon-button/icon-button";
+import { Selection } from "../selection/selection";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -10,8 +11,8 @@ template.innerHTML = `
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 50px minmax(0, 1fr);
 
-  height: 250px;
-  width: 200px;
+  height: 300px;
+  width: 250px;
   margin-right: 1rem;
 
   color: var(--black);
@@ -33,7 +34,7 @@ h1 {
   padding: 5px 0;
 
   border-radius: 6px 6px 0 0;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 
   color: var(--white);
   background: var(--background);
@@ -48,12 +49,51 @@ ${IconButton.tag} {
   position: absolute;
   top: 10px;
   right: 10px;
+
+  transition: visibility 0.15s ease-in-out;
+  visibility: hidden;
 }
 
 [part="content"] {
   padding: 10px;
 
   box-sizing: border-box;
+}
+
+[part="content"][layout="1"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+[part="content"][layout="3"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, min-content);
+  justify-items: center;
+  align-content: space-around;
+}
+
+[part="content"][layout="3"] :last-child {
+   grid-column: span 2;
+}
+
+[part="content"][layout="5"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: repeat(3, min-content);
+  justify-items: center;
+  align-content: space-around;
+}
+
+[part="content"][layout="5"] ${Selection.tag} {
+  --padding: 0.25rem 0.75rem;
+
+  min-height: unset;
+}
+
+[part="content"][layout="5"] :first-child {
+  grid-column: span 2;
 }
 
 :host(:hover) {
@@ -64,8 +104,12 @@ ${IconButton.tag} {
   background: var(--blue);
 }
 
-:host(:not([draggable])) h1 {
+h1:not([draggable]) {
   cursor: default;
+}
+
+:host(:hover) ${IconButton.tag} {
+  visibility: visible;
 }
 </style>`;
 

@@ -8,22 +8,30 @@ import { AudioChain } from "./audio-chain/audio-chain";
 import { LeftSidebar } from "./left-sidebar/left-sidebar";
 import { Controls } from "./controls/controls";
 import { AudioNode } from "./audio-node/audio-node";
+import { Knob } from "./knob/knob";
+import { ContextMenu } from "./context-menu/context-menu";
+import { Selection } from "./selection/selection";
 
 // Define custom Elements here
-await Promise.all(
-  [
-    Logo,
-    Button,
-    Icon,
-    IconButton,
-    Input,
-    AudioChain,
-    AudioNode,
-    LeftSidebar,
-    Controls,
-    Beatmaker,
-  ].map((component) => {
-    customElements.define(component.tag, component);
-    return customElements.whenDefined(component.tag);
-  })
-);
+(async () => {
+  await Promise.all(
+    [
+      Logo,
+      Knob,
+      Button,
+      Selection,
+      Icon,
+      IconButton,
+      ContextMenu,
+      Input,
+      AudioChain,
+      AudioNode,
+      LeftSidebar,
+      Controls,
+      Beatmaker
+    ].map(component => {
+      customElements.define(component.tag, component);
+      return customElements.whenDefined(component.tag);
+    })
+  );
+})();

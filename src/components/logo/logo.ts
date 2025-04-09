@@ -11,7 +11,7 @@ export class Logo extends WebComponent {
   constructor() {
     super();
 
-    this.attachShadow({ mode: "closed" }).append(createStyles(), "BEATBOLT");
+    this.attachShadow({ mode: "closed" }).append(createStyles(), "BL!TZAMPLE");
   }
 
   connectedCallback() {

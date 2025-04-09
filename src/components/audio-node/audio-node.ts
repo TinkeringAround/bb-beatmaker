@@ -1,11 +1,9 @@
-import * as Tone from "tone";
-
 import { WebComponent } from "../webcomponent";
 import { createStyles } from "./audio-node.styles";
 import { DomService } from "../../services/dom.service";
 import { AudioType, INSTRUMENTS } from "./model";
 import { createAudioNode } from "./nodes";
-import { createControls } from "./controls";
+import { createControls } from "./controls/index";
 import { IconButton } from "../icon-button/icon-button";
 import { IconTypes } from "../icon/icons";
 import { DeleteAudioNodeEvent } from "./events";
@@ -20,14 +18,7 @@ export class AudioNode extends WebComponent {
   private readonly content = DomService.createElement({ part: "content" });
 
   get node() {
-    switch (this.type) {
-      case "synthesizer":
-        return this.audioNode as Tone.Synth;
-      case "volume":
-        return this.audioNode as Tone.Volume;
-      default:
-        throw new Error("Type should never be empty");
-    }
+    return this.audioNode;
   }
 
   set type(type: AudioType) {
@@ -52,15 +43,15 @@ export class AudioNode extends WebComponent {
 
   set draggable(draggable: boolean) {
     if (draggable) {
-      this.setAttribute("draggable", "true");
+      this.name.setAttribute("draggable", "true");
       return;
     }
 
-    this.removeAttribute("draggable");
+    this.name.removeAttribute("draggable");
   }
 
   get draggable() {
-    return this.hasAttribute("draggable");
+    return this.name.hasAttribute("draggable");
   }
 
   set deletable(deletable: boolean) {
@@ -114,7 +105,10 @@ export class AudioNode extends WebComponent {
     }
 
     this.name.textContent = this.type;
-    this.content.append(...createControls(this.type, this.audioNode));
+    
+    const controls = createControls(this.type, this.audioNode);
+    this.content.setAttribute("layout", controls.length.toString());
+    this.content.append(...controls);
     this.handleDragEvents();
   }
 
@@ -124,7 +118,7 @@ export class AudioNode extends WebComponent {
   }
 
   private handleDragEvents() {
-    this.addEventListener("dragstart", (event) => {
+    this.name.addEventListener("dragstart", event => {
       if (this.draggable && event.dataTransfer) {
         event.dataTransfer.setData("type", this.type);
         event.dataTransfer.setData("config", JSON.stringify(this.config));

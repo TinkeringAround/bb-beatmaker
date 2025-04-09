@@ -32,6 +32,8 @@ template.innerHTML = `
 
   padding: 1.5rem;
 
+  font-size: 0.8rem;
+  color: var(--background);
   background: var(--grey);
   border-radius: 6px;
 

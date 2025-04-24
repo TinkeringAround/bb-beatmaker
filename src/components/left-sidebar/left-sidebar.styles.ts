@@ -96,13 +96,16 @@ ${IconButton.tag} {
 }
 
 [part="content"] {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
+    justify-items: center;
 
     width: var(--width);
 
     color: var(--dark);
+
+    overflow: auto;
 }
 
 [part="content"] ${AudioNode.tag} {
@@ -110,9 +113,13 @@ ${IconButton.tag} {
 }
 
 [part="content"] h1 {
-    margin: 0 0 1rem 0;
+    margin: 4rem 0 0.5rem;
     
     font-size: 0.8rem;
+}
+
+[part="content"] h1:first-of-type {
+    margin: 0 0 0.5rem 0;
 }
 </style>`;
 

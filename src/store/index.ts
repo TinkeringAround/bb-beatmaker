@@ -1,13 +1,14 @@
-import { StoreEvents } from "./events";
+import { STORE_EVENTS } from "../events";
 import { StoreState, INIT_APP_STATE } from "./state";
 import { Reducer } from "./reducer";
+import { EventService } from "../services/event.service";
 
 export class Store {
   static readonly key = "store-state";
   static state: StoreState = INIT_APP_STATE;
 
   static init() {
-    Object.values(StoreEvents).forEach((storeEvent) => {
+    Object.values(STORE_EVENTS).forEach((storeEvent) => {
       window.addEventListener(storeEvent, Store.commit);
     });
     Store.loadStateFromLocalStorage();
@@ -23,12 +24,8 @@ export class Store {
     }
 
     if (returnEvent) {
-      Store.dispatch(returnEvent);
+      EventService.dispatch(returnEvent);
     }
-  }
-
-  static dispatch(event: CustomEvent) {
-    window.dispatchEvent(event);
   }
 
   static select<T>(selector: (state: StoreState) => T): T {

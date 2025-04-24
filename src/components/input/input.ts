@@ -130,7 +130,6 @@ export class Input extends WebComponent {
 
   validate() {
     if (this.validatorFunction) {
-      console.log("value", this.value);
       const validationResult = this.validatorFunction(this.value);
 
       if (!!validationResult) {

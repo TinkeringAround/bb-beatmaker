@@ -1,6 +1,6 @@
-import { Icon } from '../icon/icon.webcomponent';
+import { Icon } from "../icon/icon.webcomponent";
 
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
 <style>
  :host {
@@ -52,5 +52,5 @@ ${Icon.tag} {
 </style>`;
 
 export const createStyles = () => {
-    return template.content.cloneNode(true);
+  return template.content.cloneNode(true);
 };

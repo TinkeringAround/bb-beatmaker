@@ -10,7 +10,7 @@ import {
 } from "./events";
 import { createStyles } from "./left-sidebar.styles";
 import { Logo } from "../logo/logo";
-import { INSTRUMENTS, UTILS } from "../audio-node/model";
+import { INSTRUMENTS, UTILS, EFFECTS, FILTERS } from "../audio-node/model";
 import { AudioNode } from "../audio-node/audio-node";
 
 export class LeftSidebar extends WebComponent {
@@ -89,11 +89,20 @@ export class LeftSidebar extends WebComponent {
     this.content.append(
       // Instruments
       DomService.createElement({ tag: "h1", textContent: "Instruments" }),
-      ...INSTRUMENTS.map((type) => AudioNode.create(type, true)),
+      ...INSTRUMENTS.map((type) => AudioNode.create(type, false, true)),
+
+       // Filter
+       DomService.createElement({ tag: "h1", textContent: "Filters" }),
+       ...FILTERS.map((type) => AudioNode.create(type, false, true)),
+ 
+
+      // Effects
+      DomService.createElement({ tag: "h1", textContent: "Effects" }),
+      ...EFFECTS.map((type) => AudioNode.create(type, false, true)),
 
       // Utils
       DomService.createElement({ tag: "h1", textContent: "Utility" }),
-      ...UTILS.map((type) => AudioNode.create(type, true))
+      ...UTILS.map((type) => AudioNode.create(type, false, true))
     );
   }
 

@@ -4,7 +4,7 @@ import * as Tone from "tone";
 import { WebComponent } from "../webcomponent";
 import { createStyles } from "./controls.style";
 import { AudioService } from "../../services/audio.service";
-import { Input } from "../input/input.webcomponent";
+import { Input } from "../input/input";
 import { InputEvents } from "../input/events";
 import { IconButton } from "../icon-button/icon-button";
 import { IconTypes } from "../icon/icons";
@@ -15,12 +15,14 @@ import {
 } from "../left-sidebar/events";
 import { DomService } from "../../services/dom.service";
 import { Logo } from "../logo/logo";
+import { AppEvents } from "../../events";
 
 export class Controls extends WebComponent {
   static tag = "bb-controls";
 
   private readonly logo: Logo;
   private readonly toggleButton: IconButton;
+  private readonly downloadButton: IconButton;
 
   static create() {
     return document.createElement(Controls.tag) as Controls;
@@ -40,7 +42,7 @@ export class Controls extends WebComponent {
     });
     const stopButton = IconButton.create(IconTypes.stop, () => {
       AudioService.stop();
-      downloadButton.disabled = AudioService.hasAudio;
+      this.downloadButton.disabled = !AudioService.hasAudio;
     });
 
     const bpm = Input.create("160", "BPM", "BPM", "number");
@@ -50,10 +52,10 @@ export class Controls extends WebComponent {
       } catch (_) {}
     });
 
-    const downloadButton = IconButton.create(IconTypes.download, () =>
+    this.downloadButton = IconButton.create(IconTypes.download, () =>
       AudioService.download()
     );
-    downloadButton.disabled = true;
+    this.downloadButton.disabled = true;
 
     this.attachShadow({ mode: "closed" }).append(
       createStyles(),
@@ -64,7 +66,7 @@ export class Controls extends WebComponent {
       stopButton,
       bpm,
       DomService.createElement(),
-      downloadButton
+      this.downloadButton
     );
   }
 
@@ -88,6 +90,10 @@ export class Controls extends WebComponent {
     EventService.listenTo(LeftSidebarEvents.hide).subscribe(() => {
       this.logo.style.visibility = "visible";
       this.toggleButton.style.visibility = "visible";
+    });
+
+    EventService.listenTo(AppEvents.onDownloadStateChange).subscribe(() => {
+      this.downloadButton.disabled = !AudioService.hasAudio;
     });
   }
 }

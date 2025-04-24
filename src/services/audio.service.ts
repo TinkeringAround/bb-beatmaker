@@ -2,7 +2,7 @@
 import * as Tone from "tone";
 import { ConverterService } from "./converter.service";
 import { EventService } from "./event.service";
-import { onDownloadStateChangeEvent } from "../events";
+import { OnDownloadStateChangeEvent } from "../events";
 
 export class AudioService {
   private static Recorder = new Tone.Recorder();
@@ -36,7 +36,7 @@ export class AudioService {
 
     if (AudioService.Recorder.state == "started") {
       AudioService.blob = await AudioService.Recorder.stop();
-      EventService.dispatch(new onDownloadStateChangeEvent());
+      EventService.dispatch(new OnDownloadStateChangeEvent());
       console.log("✅ Aufnahme abgeschlossen");
     }
   }

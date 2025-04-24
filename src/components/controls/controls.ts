@@ -4,8 +4,6 @@ import * as Tone from "tone";
 import { WebComponent } from "../webcomponent";
 import { createStyles } from "./controls.style";
 import { AudioService } from "../../services/audio.service";
-import { Input } from "../input/input";
-import { InputEvents } from "../input/events";
 import { IconButton } from "../icon-button/icon-button";
 import { IconTypes } from "../icon/icons";
 import { EventService } from "../../services/event.service";
@@ -16,12 +14,14 @@ import {
 import { DomService } from "../../services/dom.service";
 import { Logo } from "../logo/logo";
 import { AppEvents } from "../../events";
+import { RightSidebarShowEvent } from "../right-sidebar/events";
 
 export class Controls extends WebComponent {
   static tag = "bb-controls";
 
   private readonly logo: Logo;
-  private readonly toggleButton: IconButton;
+  private readonly toggleLeftSidebarButton: IconButton;
+  private readonly toggleRightSidebarButton: IconButton;
   private readonly downloadButton: IconButton;
 
   static create() {
@@ -32,8 +32,13 @@ export class Controls extends WebComponent {
     super();
 
     this.logo = Logo.create();
-    this.toggleButton = IconButton.create(IconTypes.arrowRightdouble, () =>
-      EventService.dispatch(new LeftSidebarShowEvent())
+    this.toggleLeftSidebarButton = IconButton.create(
+      IconTypes.arrowRightdouble,
+      () => EventService.dispatch(new LeftSidebarShowEvent())
+    );
+    this.toggleRightSidebarButton = IconButton.create(
+      IconTypes.arrowLeftDouble,
+      () => EventService.dispatch(new RightSidebarShowEvent())
     );
 
     // Controls
@@ -45,13 +50,6 @@ export class Controls extends WebComponent {
       this.downloadButton.disabled = !AudioService.hasAudio;
     });
 
-    const bpm = Input.create("160", "BPM", "BPM", "number");
-    bpm.addEventListener(InputEvents.input, () => {
-      try {
-        AudioService.bpm = Number(bpm.value);
-      } catch (_) {}
-    });
-
     this.downloadButton = IconButton.create(IconTypes.download, () =>
       AudioService.download()
     );
@@ -59,14 +57,14 @@ export class Controls extends WebComponent {
 
     this.attachShadow({ mode: "closed" }).append(
       createStyles(),
-      this.toggleButton,
+      this.toggleLeftSidebarButton,
       this.logo,
       DomService.createElement(),
       startButton,
       stopButton,
-      bpm,
       DomService.createElement(),
-      this.downloadButton
+      this.downloadButton,
+      this.toggleRightSidebarButton
     );
   }
 
@@ -84,12 +82,12 @@ export class Controls extends WebComponent {
   private handleEvents() {
     EventService.listenTo(LeftSidebarEvents.show).subscribe(() => {
       this.logo.style.visibility = "hidden";
-      this.toggleButton.style.visibility = "hidden";
+      this.toggleLeftSidebarButton.style.visibility = "hidden";
     });
 
     EventService.listenTo(LeftSidebarEvents.hide).subscribe(() => {
       this.logo.style.visibility = "visible";
-      this.toggleButton.style.visibility = "visible";
+      this.toggleLeftSidebarButton.style.visibility = "visible";
     });
 
     EventService.listenTo(AppEvents.onDownloadStateChange).subscribe(() => {

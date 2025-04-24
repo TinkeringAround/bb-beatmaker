@@ -1,6 +1,5 @@
 import * as Tone from "tone";
-
-import { Triggerable } from "./model";
+import { Triggerable } from "../../models/model";
 
 export class Keys {
   private sequence: Tone.Sequence = new Tone.Sequence(
@@ -20,7 +19,15 @@ export class Keys {
   connect(instrument: Triggerable) {
     this.sequence.callback = (time, note) => {
       if (note != "break") {
-        instrument.triggerAttackRelease(note, "8n", time);
+        note
+          .split(",")
+          .forEach((n, index) =>
+            instrument.triggerAttackRelease(
+              n,
+              "8n",
+              index > 0 ? `+0.${index}` : time
+            )
+          );
       }
     };
   }

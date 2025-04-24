@@ -1,14 +1,14 @@
+import { Keys } from "../components/beatmaker/keys";
+import { Instrument } from "../components/beatmaker/instrument";
+import { DomService } from "./dom.service";
+import { AudioService } from "./audio.service";
 import {
+  InstrumentTypes,
   Allowed,
   AUDIO_TYPES,
   AudioNodeTypes,
-  InstrumentTypes,
-} from "../components/beatmaker/model";
-import { Keys } from "../components/beatmaker/keys";
-import { Instrument } from "../components/beatmaker/instrument";
-import { createAudioNode } from "../components/beatmaker/nodes";
-import { DomService } from "./dom.service";
-import { AudioService } from "./audio.service";
+} from "../models/model";
+import { createAudioNode } from "../models/nodes";
 
 export class BeatmakerService {
   static keys: Keys = new Keys();

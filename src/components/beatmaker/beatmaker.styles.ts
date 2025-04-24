@@ -37,9 +37,9 @@ ${Controls.tag} {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-content: flex-start;
-  gap: 1rem;
+  gap: 16px;
 
-  margin: 25px 25px 25px 0;
+  padding: 25px 25px 25px 0;
 
   overflow: auto;
   box-sizing: border-box;

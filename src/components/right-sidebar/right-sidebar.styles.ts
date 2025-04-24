@@ -78,8 +78,6 @@ template.innerHTML = `
     align-content: flex-start;
     gap: 1rem;
 
-    padding: 25px;
-
     box-sizing: border-box;
 
     overflow: hidden auto;
@@ -93,27 +91,36 @@ ${IconButton.tag} {
     left: 7px;
 }
 
-[part="content"]  > div {
+[part="content"] > div {
     height: min-content;
     padding: 10px;
     
-    background: var(--grey);
+    background: var(--white);
     font-size: 0.8rem;
     color: var(--dark);
     border-radius: 2px;
   
+    transition: all 0.1s ease-in-out;
     box-sizing: border-box;
 }
 
-[part="content"]  > div h1 {
+[part="content"] > div h1 {
     margin: 0;
   
     color: var(--blue);
-    font-size: 1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
 }
   
 [part="content"]  > div span {
     display: block;
+
+    color: var(--dark);
+    font-size: 0.8rem;
+}
+
+[part="content"] > div:hover {
+    background: var(--grey);
 }
 
 :host([visible]) {

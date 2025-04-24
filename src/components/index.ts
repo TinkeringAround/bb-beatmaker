@@ -11,6 +11,7 @@ import { Selection } from "./selection/selection";
 import { AudioWave } from "./audiowave/audiowave";
 import { FrequencySpectrum } from "./frequency-spectrum/frequency-spectrum";
 import { RightSidebar } from "./right-sidebar/right-sidebar";
+import { RMS } from "./rms/rms";
 
 // Define custom Elements here
 (async () => {
@@ -28,6 +29,7 @@ import { RightSidebar } from "./right-sidebar/right-sidebar";
       Selection,
       AudioWave,
       FrequencySpectrum,
+      RMS,
       Beatmaker,
     ].map((component) => {
       customElements.define(component.tag, component);

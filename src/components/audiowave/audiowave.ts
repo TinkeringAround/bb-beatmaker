@@ -44,7 +44,7 @@ export class AudioWave extends WebComponent {
           context.lineTo(x, y);
         }
 
-        context.strokeStyle = "#007bff";
+        context.strokeStyle = "#52b788";
         context.lineWidth = 1;
         context.stroke();
       }

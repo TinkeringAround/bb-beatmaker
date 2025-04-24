@@ -103,19 +103,35 @@ ${IconButton.tag} {
     justify-items: center;
     width: var(--width);
     color: var(--dark);
-    overflow: auto;
+
+    overflow: hidden auto;
+    scrollbar-color: var(--background) transparent;
+    scrollbar-width: thin;
 }
 
 [part="content"] > div {
-    display: flex;
-    height: 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    
     width: 100%;
     
-    justify-content: center;
-    align-items: center;
     padding: 10px;
     box-sizing: border-box;
-    transition: all 0.1s ease-in-out:
+    transition: all 0.1s ease-in-out;
+}
+
+[part="content"] > div h1 {
+    margin: 0;
+
+    color: var(--blue);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+[part="content"] > div p {
+    margin: 0;
+
+    font-size: 0.8rem;
 }
 
 [part="content"] > div:hover {

@@ -1,6 +1,6 @@
 import * as Tone from "tone";
 
-import { InstrumentTypes, Triggerable } from "./model";
+import { InstrumentTypes, Triggerable } from "../../models/model";
 
 export class Instrument {
   private _instrument: Triggerable;
@@ -11,18 +11,36 @@ export class Instrument {
     }
 
     switch (type) {
+      case InstrumentTypes.amSynth:
+        this._instrument = new Tone.AMSynth();
+        break;
+      case InstrumentTypes.duoSynth:
+        this._instrument = new Tone.DuoSynth();
+        break;
+      case InstrumentTypes.fmSynth:
+        this._instrument = new Tone.FMSynth();
+        break;
+      case InstrumentTypes.membraneSynth:
+        this._instrument = new Tone.MembraneSynth();
+        break;
+      case InstrumentTypes.metalSynth:
+        this._instrument = new Tone.MetalSynth();
+        break;
+      case InstrumentTypes.monoSynth:
+        this._instrument = new Tone.MonoSynth();
+        break;
+      case InstrumentTypes.noiseSynth:
+        this._instrument = new Tone.NoiseSynth();
+        break;
+      case InstrumentTypes.pluckSynth:
+        this._instrument = new Tone.PluckSynth();
+        break;
+      case InstrumentTypes.polySynth:
+        this._instrument = new Tone.PolySynth();
+        break;
       case InstrumentTypes.synth:
-        this._instrument = new Tone.Synth({
-          oscillator: {
-            type: "sine",
-          },
-          envelope: {
-            attack: 0.5,
-            decay: 0.9,
-            sustain: 0.95,
-            release: 1.0,
-          },
-        });
+        this._instrument = new Tone.Synth();
+        break;
     }
   }
 

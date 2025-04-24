@@ -9,8 +9,8 @@ template.innerHTML = `
 }
 
 canvas {
-  width: 360px;
-  height: 250px;
+  width: inherit;
+  height: inherit;
 
   background: var(--grey);
   border-radius: 2px;

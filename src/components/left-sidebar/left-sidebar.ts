@@ -10,7 +10,8 @@ import {
 } from "./events";
 import { createStyles } from "./left-sidebar.styles";
 import { Logo } from "../logo/logo";
-import { AUDIO_TYPES } from "../beatmaker/model";
+import { AUDIO_TYPES, InstrumentTypes } from "../../models/model";
+import { DocsService } from "../../services/docs.service";
 
 export class LeftSidebar extends WebComponent {
   static readonly tag = "bb-left-sidebar";
@@ -86,22 +87,36 @@ export class LeftSidebar extends WebComponent {
 
   private renderContent() {
     this.content.append(
-      ...AUDIO_TYPES.map((audioType) => {
-        const node = DomService.createElement({ textContent: audioType });
-        node.draggable = true;
+      DomService.createElement({
+        innerHTML: `
+        <h1>instrument</h1>
+        <p>Mögliche Werte für Instruments: ${Object.values(
+          InstrumentTypes
+        )}</p>`,
+      }),
 
-        node.addEventListener("dragstart", (event) => {
-          if (event.dataTransfer) {
-            event.dataTransfer.setData("type", audioType);
+      ...[...AUDIO_TYPES]
+        .sort((a, b) => a.localeCompare(b))
+        .map((audioType) => {
+          const node = DomService.createElement({
+            innerHTML: `
+          <h1>${audioType}</h1>
+          <p>${DocsService.getDocs(audioType)}</p>`,
+          });
+          node.draggable = true;
 
-            event.dataTransfer.setDragImage(node, 10, 10);
-            event.dataTransfer.effectAllowed = "copy";
-            event.dataTransfer.dropEffect = "copy";
-          }
-        });
+          node.addEventListener("dragstart", (event) => {
+            if (event.dataTransfer) {
+              event.dataTransfer.setData("type", audioType);
 
-        return node;
-      })
+              event.dataTransfer.setDragImage(node, 10, 10);
+              event.dataTransfer.effectAllowed = "copy";
+              event.dataTransfer.dropEffect = "copy";
+            }
+          });
+
+          return node;
+        })
     );
   }
 

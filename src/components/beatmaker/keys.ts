@@ -19,15 +19,14 @@ export class Keys {
   connect(instrument: Triggerable) {
     this.sequence.callback = (time, note) => {
       if (note != "break") {
-        note
-          .split(",")
-          .forEach((n, index) =>
-            instrument.triggerAttackRelease(
-              n,
-              "8n",
-              index > 0 ? `+0.${index}` : time
-            )
-          );
+        (note as string).split(",").forEach((n: string, index: number) =>
+          instrument.triggerAttackRelease(
+            n,
+            "8n",
+            // @ts-ignore
+            index > 0 ? `+0.${index}` : time
+          )
+        );
       }
     };
   }

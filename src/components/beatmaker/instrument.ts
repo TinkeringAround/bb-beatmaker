@@ -3,6 +3,7 @@ import * as Tone from "tone";
 import { InstrumentTypes, Triggerable } from "../../models/model";
 
 export class Instrument {
+  // @ts-ignore
   private _instrument: Triggerable;
 
   set type(type: InstrumentTypes) {

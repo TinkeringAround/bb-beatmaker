@@ -4,32 +4,32 @@ import { Button } from "./button/button";
 import { Icon } from "./icon/icon.webcomponent";
 import { IconButton } from "./icon-button/icon-button";
 import { Input } from "./input/input";
-import { AudioChain } from "./audio-chain/audio-chain";
 import { LeftSidebar } from "./left-sidebar/left-sidebar";
 import { Controls } from "./controls/controls";
-import { AudioNode } from "./audio-node/audio-node";
-import { Knob } from "./knob/knob";
 import { ContextMenu } from "./context-menu/context-menu";
 import { Selection } from "./selection/selection";
+import { AudioWave } from "./audiowave/audiowave";
+import { FrequencySpectrum } from "./frequency-spectrum/frequency-spectrum";
+import { RightSidebar } from "./right-sidebar/right-sidebar";
 
 // Define custom Elements here
 (async () => {
   await Promise.all(
     [
       Logo,
-      Knob,
       Button,
-      Selection,
       Icon,
       IconButton,
       ContextMenu,
       Input,
-      AudioChain,
-      AudioNode,
       LeftSidebar,
+      RightSidebar,
       Controls,
-      Beatmaker
-    ].map(component => {
+      Selection,
+      AudioWave,
+      FrequencySpectrum,
+      Beatmaker,
+    ].map((component) => {
       customElements.define(component.tag, component);
       return customElements.whenDefined(component.tag);
     })

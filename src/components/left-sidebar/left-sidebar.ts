@@ -10,8 +10,7 @@ import {
 } from "./events";
 import { createStyles } from "./left-sidebar.styles";
 import { Logo } from "../logo/logo";
-import { INSTRUMENTS, UTILS, EFFECTS, FILTERS } from "../audio-node/model";
-import { AudioNode } from "../audio-node/audio-node";
+import { AUDIO_TYPES } from "../beatmaker/model";
 
 export class LeftSidebar extends WebComponent {
   static readonly tag = "bb-left-sidebar";
@@ -87,22 +86,22 @@ export class LeftSidebar extends WebComponent {
 
   private renderContent() {
     this.content.append(
-      // Instruments
-      DomService.createElement({ tag: "h1", textContent: "Instruments" }),
-      ...INSTRUMENTS.map((type) => AudioNode.create(type, false, true)),
+      ...AUDIO_TYPES.map((audioType) => {
+        const node = DomService.createElement({ textContent: audioType });
+        node.draggable = true;
 
-       // Filter
-       DomService.createElement({ tag: "h1", textContent: "Filters" }),
-       ...FILTERS.map((type) => AudioNode.create(type, false, true)),
- 
+        node.addEventListener("dragstart", (event) => {
+          if (event.dataTransfer) {
+            event.dataTransfer.setData("type", audioType);
 
-      // Effects
-      DomService.createElement({ tag: "h1", textContent: "Effects" }),
-      ...EFFECTS.map((type) => AudioNode.create(type, false, true)),
+            event.dataTransfer.setDragImage(node, 10, 10);
+            event.dataTransfer.effectAllowed = "copy";
+            event.dataTransfer.dropEffect = "copy";
+          }
+        });
 
-      // Utils
-      DomService.createElement({ tag: "h1", textContent: "Utility" }),
-      ...UTILS.map((type) => AudioNode.create(type, false, true))
+        return node;
+      })
     );
   }
 
@@ -115,29 +114,6 @@ export class LeftSidebar extends WebComponent {
 
     EventService.listenTo(LeftSidebarEvents.show).subscribe(() => {
       this.visible = true;
-    });
-
-    this.dragHandle.addEventListener("dragstart", (event) => {
-      if (event.dataTransfer) {
-        event.dataTransfer.effectAllowed = "move";
-        event.dataTransfer.setDragImage(this.dragGhost, 0, 0);
-      }
-      this.style.setProperty("transition-property", "opacity, transform");
-      this.dragHandle.setAttribute("active", "");
-    });
-
-    this.dragHandle.addEventListener("drag", (event) => {
-      if (event.clientX > 0) {
-        this.width = event.clientX;
-      }
-    });
-
-    this.dragHandle.addEventListener("dragend", () => {
-      this.style.setProperty(
-        "transition-property",
-        "width, opacity, transform"
-      );
-      this.dragHandle.removeAttribute("active");
     });
   }
 

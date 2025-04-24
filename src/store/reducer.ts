@@ -1,3 +1,4 @@
+import { AppEvents, UpdateScriptEvent } from "../events";
 import { StoreState } from "./state";
 
 type ReducerFunctionReturnValue = [StoreState | null, CustomEvent | null];
@@ -14,6 +15,10 @@ type ReducerMap = {
 export class Reducer {
   static map: ReducerMap = {
     // Add handlers for further Events mutating state here
+    [AppEvents.updateScript]: (state: StoreState, event: UpdateScriptEvent) => {
+      state.script = event.detail;
+      return [state, null];
+    },
   };
 
   static reduce(state: StoreState, event: Event): ReducerFunctionReturnValue {

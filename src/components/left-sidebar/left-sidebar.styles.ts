@@ -1,8 +1,7 @@
-import { IconButton } from '../icon-button/icon-button';
-import { Logo } from '../logo/logo';
-import { AudioNode } from '../audio-node/audio-node';
+import { IconButton } from "../icon-button/icon-button";
+import { Logo } from "../logo/logo";
 
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
 <style>
 :host {
@@ -98,31 +97,32 @@ ${IconButton.tag} {
 [part="content"] {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    
     align-items: center;
     justify-items: center;
-
     width: var(--width);
-
     color: var(--dark);
-
     overflow: auto;
 }
 
-[part="content"] ${AudioNode.tag} {
-    margin-bottom: 1rem;
-}
-
-[part="content"] h1 {
-    margin: 4rem 0 0.5rem;
+[part="content"] > div {
+    display: flex;
+    height: 40px;
+    width: 100%;
     
-    font-size: 0.8rem;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: all 0.1s ease-in-out:
 }
 
-[part="content"] h1:first-of-type {
-    margin: 0 0 0.5rem 0;
+[part="content"] > div:hover {
+    background: var(--grey);
 }
 </style>`;
 
 export const createStyles = () => {
-    return template.content.cloneNode(true);
+  return template.content.cloneNode(true);
 };

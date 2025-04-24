@@ -5,7 +5,7 @@ template.innerHTML = `
 <style>
 :host {
   display: grid;
-  grid-template-columns: min-content min-content minmax(0, 1fr) min-content min-content 100px minmax(0, 1fr) min-content;
+  grid-template-columns: min-content min-content minmax(0, 1fr) min-content min-content minmax(0, 1fr) min-content min-content;
   align-items: center;
   gap: 1rem;
 
